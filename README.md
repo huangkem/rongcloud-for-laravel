@@ -1,4 +1,4 @@
-# rongCloud-for-laravel
+# rongcloud-for-laravel
 基于融云服务端sdk封装成laravel5包
 # 推荐使用composer安装
 ```
