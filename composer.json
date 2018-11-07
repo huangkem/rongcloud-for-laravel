@@ -1,6 +1,6 @@
 {
     "name": "huangkem/rongcloud-for-laravel",
-	"description": "",
+	"description": "基于融云服务端sdk封装成laravel5包",
 	"keywords": [
         "php",
 		"laravel",
