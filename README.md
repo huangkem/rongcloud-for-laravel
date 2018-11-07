@@ -42,4 +42,6 @@ composer require huangkem/rongcloud-for-laravel dev-master
 ```
 更多使用方法，请参考融云API文档：[http://www.rongcloud.cn/docs/server.html](http://www.rongcloud.cn/docs/server.html)
 <br>
+融云API错误信息参考：[https://www.rongcloud.cn/docs/server.html#api](https://www.rongcloud.cn/docs/server.html#api)
+<br>
 官方sdk地址：[https://github.com/rongcloud/server-sdk-php-composer](https://github.com/rongcloud/server-sdk-php-composer)
