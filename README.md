@@ -2,7 +2,7 @@
 基于融云服务端sdk封装成laravel5包
 # 推荐使用composer安装
 ```
-composer require huangkem/rongcloud-for-laravel dev-master
+composer require huangkem/rongcloud-for-laravel
 ```
 直接下载安装，SDK 没有依赖其他第三方库，可直接下载引入使用
 # 使用方法
