@@ -2,9 +2,9 @@
 
 namespace RongCloud;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 
-class RongCloudServiceProvider extends ServiceProvider {
+class ServiceProvider extends LaravelServiceProvider {
     /**
      * 服务提供者加是否延迟加载.
      *
@@ -29,9 +29,8 @@ class RongCloudServiceProvider extends ServiceProvider {
      * @return void
      */
     public function register() {
-        // 单例绑定服务
-        $this->app->singleton('rcloud', function($app) {
-            return new RongCloud($app['config']);
+        $this->app->singleton('rcloud', function($laravelApp) {
+            return new RongCloud($laravelApp['config']);
         });
     }
 

@@ -138,31 +138,8 @@ class RongCloud {
         return $ret;
     }
 
-    public function Chatroom() {
-        return new Chatroom($this, $this->format);
-    }
-
-    public function Group() {
-        return new Group($this, $this->format);
-    }
-
-    public function Message() {
-        return new Message($this, $this->format);
-    }
-
-    public function Push() {
-        return new Push($this, $this->format);
-    }
-
-    public function SMS() {
-        return new SMS($this, $this->format);
-    }
-
-    public function Wordfilter() {
-        return new Wordfilter($this, $this->format);
-    }
-
-    public function User() {
-        return new User($this, $this->format);
+    public function __call($name, $args) {
+        $class = '\\RongCloud\\Method\\'.$name;
+        return new $class($this, $this->format);
     }
 }
