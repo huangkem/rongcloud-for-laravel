@@ -2,14 +2,6 @@
 
 namespace RongCloud;
 
-use RongCloud\Method\Chatroom;
-use RongCloud\Method\Group;
-use RongCloud\Method\Message;
-use RongCloud\Method\Push;
-use RongCloud\Method\SMS;
-use RongCloud\Method\User;
-use RongCloud\Method\Wordfilter;
-
 use Illuminate\Config\Repository;
 
 class RongCloud {
