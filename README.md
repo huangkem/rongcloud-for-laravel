@@ -26,7 +26,7 @@ composer require huangkem/rongcloud-for-laravel
 * 运行 `php artisan vendor:publish` 命令，发布配置文件`config/rongcloud.php`到你的项目中。
 <br>
 <br>
-* **推荐使用`.env`管理你的appKey和appSecret**
+* 推荐使用`.env`管理你的appKey和appSecret
 ```
     RONGCLOUD_APP_KEY=XXXXXXX #你的app_key
     RONGCLOUD_APP_SECRET=XXXXXXX #你的app_secret
