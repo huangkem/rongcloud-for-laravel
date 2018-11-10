@@ -2,68 +2,67 @@
 
 namespace RongCloud\Method;
 
+use RongCloud\RongCloud;
 use RongCloud\Exception\RongCloudException;
 
-class SMS {
+class SMS extends RongCloud {
 
-    private $SendRequest;
-    private $format;
+    public function __construct() {
 
-    public function __construct($SendRequest, $format) {
-        $this->SendRequest = $SendRequest;
-        $this->format = $format;
     }
 
-
     /**
-     * 获取图片验证码方法
+     * getImageCode [获取图片验证码方法]
      *
-     * @param  appKey:应用Id
+     * @param string $appKey [应用Id]
      *
-     * @return $json
+     * @return int|mixed
+     * @throws RongCloudException
      **/
     public function getImageCode($appKey) {
         try {
-            if(empty($appKey))
-                throw new RongCloudException('Paramer "appKey" is required');
-
+            if(empty($appKey)) {
+                throw new RongCloudException('appKey不能为空');
+            }
 
             $params = array(
                 'appKey' => $appKey
             );
 
-            $ret = $this->SendRequest->curl('/getImgCode.' . $this->format, $params, 'urlencoded', 'sms', 'GET');
-            if(empty($ret))
-                throw new RongCloudException('bad request');
+            $ret = $this->curl('/getImgCode', $params, 'urlencoded', 'sms', 'GET');
+            if(empty($ret)) {
+                throw new RongCloudException('请求失败');
+            }
             return $ret;
 
         }catch(RongCloudException $e) {
-            print_r($e->getMessage());
+            throw new RongCloudException($e->getMessage());
         }
     }
 
     /**
-     * 发送短信验证码方法。
+     * sendCode [发送短信验证码方法。]
      *
-     * @param  mobile:接收短信验证码的目标手机号，每分钟同一手机号只能发送一次短信验证码，同一手机号 1 小时内最多发送 3 次。（必传）
-     * @param  templateId:短信模板 Id，在开发者后台->短信服务->服务设置->短信模版中获取。（必传）
-     * @param  region:手机号码所属国家区号，目前只支持中图区号 86）
-     * @param  verifyId:图片验证标识 Id ，开启图片验证功能后此参数必传，否则可以不传。在获取图片验证码方法返回值中获取。
-     * @param  verifyCode:图片验证码，开启图片验证功能后此参数必传，否则可以不传。
+     * @param string $mobile     [接收短信验证码的目标手机号，每分钟同一手机号只能发送一次短信验证码，同一手机号 1 小时内最多发送 3 次。（必传）]
+     * @param string $templateId [短信模板 Id，在开发者后台->短信服务->服务设置->短信模版中获取。（必传）]
+     * @param string $region     [手机号码所属国家区号，目前只支持中图区号 86）]
+     * @param string $verifyId   [图片验证标识 Id ，开启图片验证功能后此参数必传，否则可以不传。在获取图片验证码方法返回值中获取。]
+     * @param string $verifyCode [图片验证码，开启图片验证功能后此参数必传，否则可以不传。]
      *
-     * @return $json
+     * @return int|mixed
+     * @throws RongCloudException
      **/
     public function sendCode($mobile, $templateId, $region, $verifyId = '', $verifyCode = '') {
         try {
-            if(empty($mobile))
-                throw new RongCloudException('Paramer "mobile" is required');
-
-            if(empty($templateId))
-                throw new RongCloudException('Paramer "templateId" is required');
-
-            if(empty($region))
-                throw new RongCloudException('Paramer "region" is required');
-
+            if(empty($mobile)) {
+                throw new RongCloudException('手机号不能为空');
+            }
+            if(empty($templateId)) {
+                throw new RongCloudException('短信模板不能为空');
+            }
+            if(empty($region)) {
+                throw new RongCloudException('地区号不能为空');
+            }
 
             $params = array(
                 'mobile'     => $mobile,
@@ -73,45 +72,48 @@ class SMS {
                 'verifyCode' => $verifyCode
             );
 
-            $ret = $this->SendRequest->curl('/sendCode.' . $this->format, $params, 'urlencoded', 'sms', 'POST');
-            if(empty($ret))
-                throw new RongCloudException('bad request');
+            $ret = $this->curl('/sendCode', $params, 'urlencoded', 'sms', 'POST');
+            if(empty($ret)) {
+                throw new RongCloudException('请求失败');
+            }
             return $ret;
 
         }catch(RongCloudException $e) {
-            print_r($e->getMessage());
+            throw new RongCloudException($e->getMessage());
         }
     }
 
     /**
-     * 验证码验证方法
+     * verifyCode [验证码验证方法]
      *
-     * @param  sessionId:短信验证码唯一标识，在发送短信验证码方法，返回值中获取。（必传）
-     * @param  code:短信验证码内容。（必传）
+     * @param string $sessionId [短信验证码唯一标识，在发送短信验证码方法，返回值中获取。（必传）]
+     * @param string $code      [短信验证码内容。（必传）]
      *
-     * @return $json
+     * @return int|mixed
+     * @throws RongCloudException
      **/
     public function verifyCode($sessionId, $code) {
         try {
-            if(empty($sessionId))
-                throw new RongCloudException('Paramer "sessionId" is required');
-
-            if(empty($code))
-                throw new RongCloudException('Paramer "code" is required');
-
+            if(empty($sessionId)) {
+                throw new RongCloudException('短信验证码唯一标识不能为空');
+            }
+            if(empty($code)) {
+                throw new RongCloudException('短信验证码内容不能为空');
+            }
 
             $params = array(
                 'sessionId' => $sessionId,
                 'code'      => $code
             );
 
-            $ret = $this->SendRequest->curl('/verifyCode.' . $this->format, $params, 'urlencoded', 'sms', 'POST');
-            if(empty($ret))
-                throw new RongCloudException('bad request');
+            $ret = $this->curl('/verifyCode', $params, 'urlencoded', 'sms', 'POST');
+            if(empty($ret)) {
+                throw new RongCloudException('请求失败');
+            }
             return $ret;
 
         }catch(RongCloudException $e) {
-            print_r($e->getMessage());
+            throw new RongCloudException($e->getMessage());
         }
     }
 

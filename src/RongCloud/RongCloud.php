@@ -2,25 +2,43 @@
 
 namespace RongCloud;
 
+use RongCloud\Method\Chatroom;
+use RongCloud\Method\Group;
+use RongCloud\Method\Message;
+use RongCloud\Method\Push;
+use RongCloud\Method\SMS;
+use RongCloud\Method\User;
+use RongCloud\Method\Wordfilter;
+use RongCloud\Exception\RongCloudException;
+
 use Illuminate\Config\Repository;
 
 class RongCloud {
-    const   SERVERAPIURL = 'https://api.cn.ronghub.com';    //IM服务地址
-    const   SMSURL = 'http://api.sms.ronghub.com';          //短信服务地址
+    const SERVERAPIURL = 'https://api.cn.ronghub.com';    //IM服务地址
+    const SMSURL = 'http://api.sms.ronghub.com';          //短信服务地址
 
-    private $appKey;
-    private $appSecret;
-    private $format;
+    private static $appKey;
+    private static $appSecret;
+    private static $format;
 
     /**
      * RongCloud constructor.
      *
-     * @param $config   [获取配置文件]
+     * @param Repository $config [获取配置文件]
+     * @throws RongCloudException
      */
     public function __construct(Repository $config) {
-        $this->appKey = $config->get('rongcloud.rongCloud_app_key'); // appkey
-        $this->appSecret = $config->get('rongcloud.rongCloud_app_secret'); // appsecret
-        $this->format = $config->get('rongcloud.rongCloud_format') ?? 'json'; // format
+        $appKey = $config->get('rongcloud.rongCloud_app_key'); // appkey
+        $appSecret = $config->get('rongcloud.rongCloud_app_secret'); // appsecret
+        $format = $config->get('rongcloud.rongCloud_format') ?? 'json'; // format
+
+        if(empty($appKey) || empty($appSecret) || empty($format)) {
+            throw new RongCloudException('融云配置填写有误');
+        }
+
+        self::$appKey = $appKey;
+        self::$appSecret = $appSecret;
+        self::$format = $format;
     }
 
     /**
@@ -31,9 +49,9 @@ class RongCloud {
     private function createHttpHeader() {
         $nonce = mt_rand();
         $timeStamp = time();
-        $sign = sha1($this->appSecret . $nonce . $timeStamp);
+        $sign = sha1(self::$appSecret . $nonce . $timeStamp);
         return array(
-            'RC-App-Key:' . $this->appKey,
+            'RC-App-Key:' . self::$appKey,
             'RC-Nonce:' . $nonce,
             'RC-Timestamp:' . $timeStamp,
             'RC-Signature:' . $sign,
@@ -66,7 +84,7 @@ class RongCloud {
                 if($prefixKey == '') {
                     $prefixKey .= $key;
                 }
-                if(isset($val[0]) && is_array($val[0])) {
+                if(is_array($val[0])) {
                     $arr = array();
                     $arr[$key] = $val[0];
                     $str .= $argSeparator . http_build_query($arr);
@@ -92,14 +110,15 @@ class RongCloud {
     public function curl($action, $params, $contentType = 'urlencoded', $module = 'im', $httpMethod = 'POST') {
         switch($module) {
             case 'im':
-                $action = self::SERVERAPIURL . $action;
+                $action = self::SERVERAPIURL . $action . '.' . self::$format;
             break;
             case 'sms':
-                $action = self::SMSURL . $action;
+                $action = self::SMSURL . $action . '.' . self::$format;
             break;
             default:
-                $action = self::SERVERAPIURL . $action;
+                $action = self::SERVERAPIURL . $action . '.' . self::$format;
         }
+
         $httpHeader = $this->createHttpHeader();
         $ch = curl_init();
         if($httpMethod == 'POST' && $contentType == 'urlencoded') {
@@ -130,8 +149,59 @@ class RongCloud {
         return $ret;
     }
 
-    public function __call($name, $args) {
-        $class = '\\RongCloud\\Method\\'.$name;
-        return new $class($this, $this->format);
+    /**
+     * @return \RongCloud\Method\Chatroom Chatroom
+     * @throws RongCloudException
+     */
+    public function chatroom() {
+        return new Chatroom();
+    }
+
+    /**
+     * @return \RongCloud\Method\Group Group
+     * @throws RongCloudException
+     */
+    public function group() {
+        return new Group();
+    }
+
+    /**
+     * @return \RongCloud\Method\Message Message
+     * @throws RongCloudException
+     */
+    public function message() {
+        return new Message();
+    }
+
+    /**
+     * @return \RongCloud\Method\Push Push
+     * @throws RongCloudException
+     */
+    public function push() {
+        return new Push();
+    }
+
+    /**
+     * @return \RongCloud\Method\SMS SMS
+     * @throws RongCloudException
+     */
+    public function SMS() {
+        return new SMS();
+    }
+
+    /**
+     * @return \RongCloud\Method\User User
+     * @throws RongCloudException
+     */
+    public function user() {
+        return new User();
+    }
+
+    /**
+     * @return \RongCloud\Method\WordFilter WordFilter
+     * @throws RongCloudException
+     */
+    public function wordFilter() {
+        return new WordFilter();
     }
 }

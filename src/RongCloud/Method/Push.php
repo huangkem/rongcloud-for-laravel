@@ -2,66 +2,66 @@
 
 namespace RongCloud\Method;
 
+use RongCloud\RongCloud;
 use RongCloud\Exception\RongCloudException;
 
-class Push {
+class Push extends RongCloud {
 
-    private $SendRequest;
-    private $format;
+    public function __construct() {
 
-    public function __construct($SendRequest, $format) {
-        $this->SendRequest = $SendRequest;
-        $this->format = $format;
     }
 
-
     /**
-     * 添加 Push 标签方法
+     * setUserPushTag [添加 Push 标签方法]
      *
-     * @param  userTag:用户标签。
+     * @param string $userTag[用户标签。]
      *
-     * @return $json
+     * @return int|mixed
+     * @throws RongCloudException
      **/
     public function setUserPushTag($userTag) {
         try {
-            if(empty($userTag))
-                throw new RongCloudException('Paramer "userTag" is required');
-
+            if(empty($userTag)) {
+                throw new RongCloudException('用户标签不能为空');
+            }
 
             $params = json_decode($userTag, true);
 
-            $ret = $this->SendRequest->curl('/user/tag/set.' . $this->format, $params, 'json', 'im', 'POST');
-            if(empty($ret))
-                throw new RongCloudException('bad request');
+            $ret = $this->curl('/user/tag/set', $params, 'json', 'im', 'POST');
+            if(empty($ret)) {
+                throw new RongCloudException('请求失败');
+            }
             return $ret;
 
         }catch(RongCloudException $e) {
-            print_r($e->getMessage());
+            throw new RongCloudException($e->getMessage());
         }
     }
 
     /**
-     * 广播消息方法（fromuserid 和 message为null即为不落地的push）
+     * broadcastPush [广播消息方法（fromuserid 和 message为null即为不落地的push）]
      *
-     * @param  pushMessage:json数据
+     * @param string $pushMessage[json数据]
      *
-     * @return $json
+     * @return int|mixed
+     * @throws RongCloudException
      **/
     public function broadcastPush($pushMessage) {
         try {
-            if(empty($pushMessage))
-                throw new RongCloudException('Paramer "pushMessage" is required');
-
+            if(empty($pushMessage)) {
+                throw new RongCloudException('推送数据不能为空');
+            }
 
             $params = json_decode($pushMessage, true);
 
-            $ret = $this->SendRequest->curl('/push.' . $this->format, $params, 'json', 'im', 'POST');
-            if(empty($ret))
+            $ret = $this->curl('/push', $params, 'json', 'im', 'POST');
+            if(empty($ret)) {
                 throw new RongCloudException('bad request');
+            }
             return $ret;
 
         }catch(RongCloudException $e) {
-            print_r($e->getMessage());
+            throw new RongCloudException($e->getMessage());
         }
     }
 

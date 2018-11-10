@@ -9,35 +9,37 @@ composer require huangkem/rongcloud-for-laravel
 要使用融云服务端SDK服务提供者，你必须自己注册服务提供者到Laravel服务提供者列表中。
 <br>
 <br>
-找到 `config/app.php` 配置文件中，key为 providers 的数组，在数组中添加服务提供者。
+* 找到 `config/app.php` 配置文件中，key为 providers 的数组，在数组中添加服务提供者。
 ```
     'providers' => [
         // ...
         RongCloud\RongCloudServiceProvider::class,
     ]
 ```
-找到key为 aliases 的数组，在数组中注册Facades。
+* 找到key为 aliases 的数组，在数组中注册Facades。
 ```
     'aliases' => [
         // ...
         'RongCloud' => RongCloud\Facades\RongCloud::class,
     ]
 ```
-运行 `php artisan vendor:publish` 命令，发布配置文件`config/rongcloud.php`到你的项目中。
+* 运行 `php artisan vendor:publish` 命令，发布配置文件`config/rongcloud.php`到你的项目中。
 <br>
 <br>
-**推荐使用`.env`管理你的appKey和appSecret**
+* **推荐使用`.env`管理你的appKey和appSecret**
 ```
-  RONGCLOUD_APP_KEY=XXXXXXX #你的app_key
-  RONGCLOUD_APP_SECRET=XXXXXXX #你的app_secret
-  RONGCLOUD_FORMAT=json #默认选择json格式读取数据
+    RONGCLOUD_APP_KEY=XXXXXXX #你的app_key
+    RONGCLOUD_APP_SECRET=XXXXXXX #你的app_secret
+    RONGCLOUD_FORMAT=json #默认选择json格式读取数据
 ```
 
 # 例子
+`test/test.php`提供了所有的 API 接口的调用用例
+<br>
 ```
     // 获取用户token
     $client = new RongCloud();
-    $token = $client::User()->getToken('userId1', 'username', 'http://www.rongcloud.cn/images/logo.png');
+    $token = $client::user()->getToken('userId1', 'username', 'http://www.rongcloud.cn/images/logo.png');
     ...
 ```
 更多使用方法，请参考融云API文档：[http://www.rongcloud.cn/docs/server.html](http://www.rongcloud.cn/docs/server.html)
