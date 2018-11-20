@@ -135,7 +135,7 @@ class Group extends RongCloud {
             if(empty($userId)) {
                 throw new RongCloudException('要加入群的用户 Id 不能为空');
             }
-            if(count($userId) > 1000) {
+            if(is_array($userId) && count($userId) > 1000) {
                 throw new RongCloudException('要加入群的用户最多不超过 1000 个');
             }
             if(empty($groupId)) {
@@ -240,7 +240,7 @@ class Group extends RongCloud {
             if(empty($userId)) {
                 throw new RongCloudException('用户 Id 不能为空');
             }
-            if(count($userId) > 20) {
+            if(is_array($userId) && count($userId) > 20) {
                 throw new RongCloudException('每次最多设置 20 个用户');
             }
             if(empty($groupId)) {
@@ -310,7 +310,7 @@ class Group extends RongCloud {
             if(empty($userId)) {
                 throw new RongCloudException('用户 Id 不能为空');
             }
-            if(count($userId) > 20) {
+            if(is_array($userId) && count($userId) > 20) {
                 throw new RongCloudException('每次最多解禁 20 个用户');
             }
             if(empty($groupId)) {

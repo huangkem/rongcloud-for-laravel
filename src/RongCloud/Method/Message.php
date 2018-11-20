@@ -37,7 +37,7 @@ class Message extends RongCloud {
             if(empty($toUserId)) {
                 throw new RongCloudException('接收用户 Id 不能为空');
             }
-            if(count($toUserId) > 1000) {
+            if(is_array($toUserId) && count($toUserId) > 1000) {
                 throw new RongCloudException('接收用户每次上限为 1000 人');
             }
             if(empty($objectName)) {
@@ -124,7 +124,7 @@ class Message extends RongCloud {
             if(empty($toUserId)) {
                 throw new RongCloudException('接收用户 Id 不能为空');
             }
-            if(count($toUserId) > 1000) {
+            if(is_array($toUserId) && count($toUserId) > 1000) {
                 throw new RongCloudException('接收用户上限为 1000 人');
             }
             if(empty($objectName)) {
@@ -211,7 +211,7 @@ class Message extends RongCloud {
             if(empty($toGroupId)) {
                 throw new RongCloudException('接收群 Id 不能为空');
             }
-            if(count($toGroupId) > 3) {
+            if(is_array($toGroupId) && count($toGroupId) > 3) {
                 throw new RongCloudException('接收群最多不超过 3 个');
             }
             if(empty($objectName)) {
@@ -266,7 +266,7 @@ class Message extends RongCloud {
             if(empty($toChatroomId)) {
                 throw new RongCloudException('接收聊天室 Id 不能为空');
             }
-            if(count($toChatroomId) > 10) {
+            if(is_array($toChatroomId) && count($toChatroomId) > 10) {
                 throw new RongCloudException('接收聊天室最多不超过 10 个');
             }
             if(empty($objectName)) {

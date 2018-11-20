@@ -111,7 +111,7 @@ class WordFilter extends RongCloud {
                 throw new RongCloudException('敏感词必须数组');
             }
 
-            if(count($words) > 50) {
+            if(is_array($words) && count($words) > 50) {
                 throw new RongCloudException('敏感词数量不能大于50个');
             }
 

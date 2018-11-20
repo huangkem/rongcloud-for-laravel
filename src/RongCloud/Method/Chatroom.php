@@ -56,7 +56,7 @@ class Chatroom extends RongCloud {
             if(empty($userId)) {
                 throw new RongCloudException('要加入聊天室的用户 Id 不能为空');
             }
-            if(count($userId) > 50) {
+            if(is_array($userId) && count($userId) > 50) {
                 throw new RongCloudException('要加入聊天室的用户最多不超过 50 个');
             }
             if(empty($chatroomId)) {
@@ -457,7 +457,7 @@ class Chatroom extends RongCloud {
                 throw new RongCloudException('低优先级的消息类型不能为空');
             }
 
-            if(count($objectName) > 5) {
+            if(is_array($objectName) && count($objectName) > 5) {
                 throw new RongCloudException('低优先级的消息类型每次最多提交 5 个');
             }
 
@@ -490,7 +490,7 @@ class Chatroom extends RongCloud {
                 throw new RongCloudException('低优先级的消息类型不能为空');
             }
 
-            if(count($objectName) > 5) {
+            if(is_array($objectName) && count($objectName) > 5) {
                 throw new RongCloudException('低优先级的消息类型每次最多提交 5 个');
             }
 
@@ -519,9 +519,9 @@ class Chatroom extends RongCloud {
      **/
     public function destroy($chatroomId) {
         try {
-            if(empty($chatroomId))
+            if(empty($chatroomId)) {
                 throw new RongCloudException('要销毁的聊天室 Id 不能为空');
-
+            }
 
             $params = array(
                 'chatroomId' => $chatroomId
@@ -555,7 +555,7 @@ class Chatroom extends RongCloud {
             if(empty($userId)) {
                 throw new RongCloudException('聊天室中用户 Id 不能为空');
             }
-            if(count($userId) > 5) {
+            if(is_array($userId) && count($userId) > 5) {
                 throw new RongCloudException('聊天室中用户 Id 最多不超过 5 个');
             }
 
@@ -592,7 +592,7 @@ class Chatroom extends RongCloud {
             if(empty($userId)) {
                 throw new RongCloudException('聊天室中用户 Id 不能为空');
             }
-            if(count($userId) > 5) {
+            if(is_array($userId) && count($userId) > 5) {
                 throw new RongCloudException('聊天室中用户 Id 最多不超过 5 个');
             }
 

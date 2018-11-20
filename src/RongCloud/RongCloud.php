@@ -84,7 +84,7 @@ class RongCloud {
                 if($prefixKey == '') {
                     $prefixKey .= $key;
                 }
-                if(is_array($val[0])) {
+                if(isset($val[0]) && is_array($val[0])) {
                     $arr = array();
                     $arr[$key] = $val[0];
                     $str .= $argSeparator . http_build_query($arr);
