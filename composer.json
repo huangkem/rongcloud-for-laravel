@@ -3,11 +3,11 @@
 	"description": "基于融云服务端sdk封装成laravel5包",
 	"keywords": [
         "php",
-		"laravel",
-		"laravel5",
+	    "laravel",
+	    "laravel5",
         "rongc",
-		"rongcloud",
-		"sdk"
+	    "rongcloud",
+	    "sdk"
     ],
     "license": "MIT",
     "authors": [
@@ -17,12 +17,22 @@
         }
     ],
     "require": {
-		"php": ">=7.0"
-	},
+        "php": ">=7.0"
+    },
 	"autoload": {
-		"psr-4": {
-			"RongCloud\\": "src/RongCloud"
-		}
+	    "psr-4": {
+		    "RongCloud\\": "src/RongCloud"
+	    }
 	},
-	"minimum-stability": "stable"
+    "extra": {
+        "laravel": {
+            "providers": [
+                "RongCloud\\ServiceProvider"
+            ],
+            "aliases": {
+                "RongCloud": "RongCloud\\Facades\\RongCloud"
+            }
+        }
+    },
+    "minimum-stability": "stable"
 }
