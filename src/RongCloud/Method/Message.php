@@ -401,4 +401,62 @@ class Message extends RongCloud {
             throw new RongCloudException($e->getMessage());
         }
     }
+
+    /**
+     * recallMessage [消息撤回服务（支持撤回单聊、群聊中用户发送的消息，如开通了单群聊消息云存储功能，则云存储中的消息数据也将被删除）]
+     *
+     * @param $fromUserId       [消息发送人用户 Id。（必传）]
+     * @param $conversationType [会话类型，二人会话是 1 、群组会话是 3 。（必传）]
+     * @param $targetId         [目标 Id，根据不同的 ConversationType，可能是用户 Id、群组 Id。（必传）]
+     * @param $messageUID       [消息唯一标识，可通过服务端实时消息路由获取，对应名称为 msgUID。（必传）]
+     * @param $sentTime         [消息发送时间，可通过服务端实时消息路由获取，对应名称为 msgTimestamp。（必传）]
+     *
+     * @return int|mixed
+     * @throws RongCloudException
+     * 2019/4/14 15:09
+     */
+    public function recallMessage($fromUserId, $conversationType, $targetId, $messageUID, $sentTime) {
+        try {
+            if(empty($fromUserId)) {
+                throw new RongCloudException('消息发送人用户 Id 不能为空');
+            }
+
+            if(empty($conversationType)) {
+                throw new RongCloudException('会话类型 不能为空');
+            }
+
+            if($conversationType !== 1 && $conversationType !== 3 && $conversationType !== 6) {
+                throw new RongCloudException('会话类型 二人会话是 1 、群组会话是 3 ');
+            }
+
+            if(empty($targetId)) {
+                throw new RongCloudException('目标 Id 不能为空');
+            }
+
+            if(empty($messageUID)) {
+                throw new RongCloudException('消息唯一标识 不能为空');
+            }
+
+            if(empty($sentTime)) {
+                throw new RongCloudException('消息发送时间 不能为空');
+            }
+
+            $params = [
+                'fromUserId'       => $fromUserId,
+                'conversationType' => $conversationType,
+                'targetId'         => $targetId,
+                'messageUID'       => $messageUID,
+                'sentTime'         => $sentTime,
+            ];
+
+            $ret = $this->curl('/message/recall', $params, 'urlencoded', 'im', 'POST');
+            if(empty($ret)) {
+                throw new RongCloudException('请求失败');
+            }
+            return $ret;
+
+        }catch(RongCloudException $e) {
+            throw new RongCloudException($e->getMessage());
+        }
+    }
 }
